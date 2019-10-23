@@ -41,7 +41,9 @@ class App extends React.Component{
                         <EnyeTable formRows={this.state.formRows}/>
                     </div>
                 </div>
-            </div>
+                </div>
+
+            
         );
     }
 

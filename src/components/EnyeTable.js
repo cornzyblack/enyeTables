@@ -34,7 +34,7 @@ class EnyeTable extends Component {
 
     render() {
             return (<div>
-                <Table dataSource={this.props.formRows} columns={columns} />
+                <Table dataSource={this.props.formRows} columns={columns}  style={{padding:"50px"}}/>
             </div>);
         }
     }

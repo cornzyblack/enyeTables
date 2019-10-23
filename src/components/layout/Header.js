@@ -3,16 +3,16 @@ import React from 'react'
 function Header() {
     return (
         <header style={headerStyle}>
-            <h1>Welcome to Enye Programming</h1>
+            <h1>Enye Programming Test</h1>
         </header>
     )
 }
 
 const headerStyle = {
-    background: "#333",
-    color: "#fff",
+    // background: "#5945e6",
+    color: "#5945e6",
     textAlign: "center",
-    padding: '10px'
+    padding: '15px'
 }
 
 export default Header;

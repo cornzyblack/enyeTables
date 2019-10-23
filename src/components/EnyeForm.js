@@ -3,6 +3,8 @@ import 'antd/dist/antd.css';
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
 import uuid from 'uuid';
+import './../App.css';
+
 
 import {
     Form,
@@ -56,14 +58,14 @@ class EnyeForm extends React.Component {
     const ageDate = new Date(ageDiffMilli); // miliseconds from epoch
     var calculatedAge =  Math.abs(ageDate.getUTCFullYear() - 1970);
 
-    if (value && inputAge !== calculatedAge) {
-        callback('Your Birth Date is inconsistent with your age');
+    if (form.getFieldValue('age') && inputAge !== calculatedAge) {
+        alert('Your Birth Date is inconsistent with your age');
     }
 
     else {
-    console.log(callback);
     callback();
   }
+  
   };
 
  
@@ -95,7 +97,7 @@ class EnyeForm extends React.Component {
 
 
     return (
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form {...formItemLayout} onSubmit={this.handleSubmit}  style={{padding:"10px 50px"}}>
             <Form.Item
             label={
                 <span>
@@ -108,7 +110,7 @@ class EnyeForm extends React.Component {
             >
             {getFieldDecorator('firstName', {
                 rules: [{ required: true, message: 'Please input your first name!'}],
-            })(<Input />)}
+            })(<Input style={{maxWidth:"500px"}} />)}
             </Form.Item>
 
             <Form.Item
@@ -123,7 +125,7 @@ class EnyeForm extends React.Component {
             >
             {getFieldDecorator('lastName', {
                 rules: [{ required: true, message: 'Please input your lastname!', whitespace: true }],
-            })(<Input />)}
+            })(<Input style={{maxWidth:"500px"}}/>)}
             </Form.Item>
 
             <Form.Item
@@ -140,7 +142,7 @@ class EnyeForm extends React.Component {
                 rules: [
                     {pattern:/^[0-9]+$/, message: 'Please type a number'},
                     {required: true, message: 'Please input your age!'}],
-            })(<Input />)}
+            })(<Input style={{maxWidth:"500px"}}/>)}
             </Form.Item>
 
 
@@ -156,7 +158,7 @@ class EnyeForm extends React.Component {
             >
             {getFieldDecorator('hobby', {
                 rules: [{ required: true, message: 'Please input your Hobby!' }],
-            })(<Input />)}
+            })(<Input style={{maxWidth:"500px"}}/>)}
             </Form.Item>
 
 
