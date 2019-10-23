@@ -1,95 +1,186 @@
-import React, {Component} from 'react';
+import React from 'react';
+import 'antd/dist/antd.css';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
+import uuid from 'uuid';
 
-class EnyeForm extends Component {
-    state = [
-        {
-            firstName: 'Eniwoke',
-            lastName: 'Cornelius',
-            birthDay: '1999-01-01',
-            age: '19',
-            hobby: 'swimming'
-        }
-    ]
+import {
+    Form,
+    Input,
+    Tooltip,
+    Icon,
+    Button,
+  } from 'antd';
+  
 
+class EnyeForm extends React.Component {
+  state = {
+    key: ' ',
+    firstName: ' ',
+    lastName: ' ',
+    age: ' ',
+    birthday: ' ',
+    hobby: ' ',
+    confirmDirty: false,
+    autoCompleteResult: [],
+  };
 
-    onChangeFirstName = (e) => this.setState( { [e.target.firstName]: e.target.value });
-    onChangeLastName = (e) => this.setState( { [e.target.lastName]: e.target.value });
-    onChangeBirthDay = (e) => this.setState( { [e.target.birthDay]: e.target.value });
-    onChangeAge = (e) => this.setState( { [e.target.age]: e.target.value });
-    onChangeHobby = (e) => this.setState( { [e.target.hobby]: e.target.value });
-    
-    onSubmit = (e) => {
-    // Prevent default submit from taking place
-    // Instead Pass this up to the Todo 
-        e.preventDefault();
-        this.props.addTodo(this.state.firstName);
-        this.props.addTodo(this.state.lastName);
-        this.props.addTodo(this.state.birthDay);
-        this.props.addTodo(this.state.age);
-        this.props.addTodo(this.state.hobby);
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        values['key'] = uuid.v4();
+        // console.log('Received values of form: ', values);
+        // console.log('Received firstName: ', values['firstName']);
+        // console.log('Received Birthday: ', values['birthday'].format('YYYY'));
 
-        // this.setState( { title: ''});
+        this.props.addToTable(values);
+        this.setState( {key: ' '});
+        this.setState( {firstName: ' '});
+        this.setState( {lastName: ' '});
+        this.setState( {birthday: ' '});
+        this.setState( {age: ' '});
+        this.setState( {hobby: ' '});
+
     }
+    });
+  };
+
+  checkBirthDate = (rule, value, callback) => {
+    const { form } = this.props;
+    const inputAge = parseInt(form.getFieldValue('age'));
+
+    const valueBirthDay = new Date(value.format('YYYY-MM-DD'));
     
-    render() {
-        return (
-            <form onSubmit={this.onSubmit}>
-                <input 
-                    type="text"
-                    name="firstName"
-                    placeholder="Enebeli" 
-                    style={{ flex: '10', padding:'5px'}}
-                    value={this.state.title}
-                    onChange={this.onChangeFirstName}
-                />
-                
-                <input 
-                    type="text"
-                    name="lastName"
-                    placeholder="Ciroma" 
-                    style={{ flex: '10', padding:'5px'}}
-                    value={this.state.title}
-                    onChange={this.onChangeLastName}
-                />
+    var ageDiffMilli = Date.now() - valueBirthDay.getTime();
+    const ageDate = new Date(ageDiffMilli); // miliseconds from epoch
+    var calculatedAge =  Math.abs(ageDate.getUTCFullYear() - 1970);
 
-                <input 
-                    type="text"
-                    name="birthDay"
-                    placeholder="1999-01-01" 
-                    style={{ flex: '10', padding:'5px'}}
-                    value={this.state.title}
-                    onChange={this.onChangeBirthDay}
-                />
-
-                <input 
-                    type="text"
-                    name="age"
-                    placeholder="1000 Years" 
-                    style={{ flex: '10', padding:'5px'}}
-                    value={this.state.title}
-                    onChange={this.onChangeAge}
-                />
-
-                <input 
-                    type="text"
-                    name="hobby"
-                    placeholder="Swimming" 
-                    style={{ flex: '10', padding:'5px'}}
-                    value={this.state.title}
-                    onChange={this.onChangeHobby}
-                />
-
-                <input 
-                    type='submit' 
-                    value="Submit" 
-                    className="btn"
-                    style={{ flex:'1' }}
-                />
-            </form>
-        )
+    if (value && inputAge !== calculatedAge) {
+        callback('Your Birth Date is inconsistent with your age');
     }
+
+    else {
+    console.log(callback);
+    callback();
+  }
+  };
+
+ 
+  render() {
+    const { getFieldDecorator } = this.props.form;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 16,
+          offset: 8,
+        },
+      },
+    };
+
+
+    return (
+        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form.Item
+            label={
+                <span>
+                First Name&nbsp;
+                <Tooltip title="What is your first name?">
+                    <Icon type="question-circle-o" />
+                </Tooltip>
+                </span>
+            }
+            >
+            {getFieldDecorator('firstName', {
+                rules: [{ required: true, message: 'Please input your first name!'}],
+            })(<Input />)}
+            </Form.Item>
+
+            <Form.Item
+            label={
+                <span>
+                Last Name&nbsp;
+                <Tooltip title="What is your last name?">
+                    <Icon type="question-circle-o" />
+                </Tooltip>
+                </span>
+            }
+            >
+            {getFieldDecorator('lastName', {
+                rules: [{ required: true, message: 'Please input your lastname!', whitespace: true }],
+            })(<Input />)}
+            </Form.Item>
+
+            <Form.Item
+            label={
+                <span>
+                Age&nbsp;
+                <Tooltip title="What is your age?">
+                    <Icon type="question-circle-o" />
+                </Tooltip>
+                </span>
+            }
+            >
+            {getFieldDecorator('age', {
+                rules: [
+                    {pattern:/^[0-9]+$/, message: 'Please type a number'},
+                    {required: true, message: 'Please input your age!'}],
+            })(<Input />)}
+            </Form.Item>
+
+
+            <Form.Item
+            label={
+                <span>
+                Hobby&nbsp;
+                <Tooltip title="What is your Hobby?">
+                    <Icon type="question-circle-o" />
+                </Tooltip>
+                </span>
+            }
+            >
+            {getFieldDecorator('hobby', {
+                rules: [{ required: true, message: 'Please input your Hobby!' }],
+            })(<Input />)}
+            </Form.Item>
+
+
+            <Form.Item label="Birthday">
+            {getFieldDecorator('birthday', 
+            {
+                rules: [
+                    {required:true, message: "This is required"},
+                    {validator: this.checkBirthDate}
+                ]
+            }
+                    )(<DatePicker />)
+            }
+            </Form.Item>
+
+        
+            <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+                Register
+            </Button>
+            </Form.Item>
+        </Form>
+    );
+  }
 }
-
-
-
+          
 export default EnyeForm;
