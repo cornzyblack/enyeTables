@@ -6,6 +6,7 @@ import uuid from 'uuid';
 import './../App.css';
 
 
+
 import {
     Form,
     Input,
@@ -37,12 +38,6 @@ class EnyeForm extends React.Component {
         // console.log('Received Birthday: ', values['birthday'].format('YYYY'));
 
         this.props.addToTable(values);
-        this.setState( {key: ' '});
-        this.setState( {firstName: ' '});
-        this.setState( {lastName: ' '});
-        this.setState( {birthday: ' '});
-        this.setState( {age: ' '});
-        this.setState( {hobby: ' '});
 
     }
     });
@@ -184,5 +179,7 @@ class EnyeForm extends React.Component {
     );
   }
 }
-          
+
+// const mapStateToProps = 
+
 export default EnyeForm;

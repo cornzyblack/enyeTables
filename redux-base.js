@@ -20,6 +20,10 @@ const rootReducer = (state = initialState, action) => {
 // Store
 const store = createStore(rootReducer);
 
+// Subscription
+store.subscribe(() =>{
+    console.log('[Subscription]', store.getState())
+});
 
 // Dispatching Action
 // key: passedRow['key'],
@@ -29,6 +33,5 @@ const store = createStore(rootReducer);
 // birthday: passedRow['birthday'].format('YYYY/MM/DD'),
 // hobby: passedRow['hobby'],
 
+// Dispatching Action
 store.dispatch({type: 'ADD_FORM_TABLE', payload: {} });
-
-// Subscription
