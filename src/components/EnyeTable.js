@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Table} from 'antd';
-import  { connect } from 'react-redux';
 
 
 const columns = [
@@ -46,4 +45,3 @@ class EnyeTable extends Component {
 
 
 export default EnyeTable;
-// export default connect()(EnyeTable
