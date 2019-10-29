@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import { Table} from 'antd';
+import { useSelector } from 'react-redux'
 
 
 const columns = [
@@ -31,16 +32,17 @@ const columns = [
     }
   ]
 
-class EnyeTable extends Component {
+function EnyeTable(props) {
+  const usersState=useSelector(state=>state.users)
 
-    render() {
-            return (<div>
-                <Table dataSource={this.props.formRows} 
-                columns={columns}  
-                style={{padding:"50px"}}/>
-            </div>)
-            ;
-        }
+    return (
+      <div>
+        <Table dataSource={usersState} 
+        columns={columns}  
+        style={{padding:"50px"}}/>
+    </div>
+    )        
+        
     }
 
 
